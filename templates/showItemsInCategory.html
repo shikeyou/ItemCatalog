@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Item Catalog</title>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<div class="flash">{{message}}</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<ul>
+		{% for category in categories %}
+			<li><a href="{{url_for('showItemsInCategory', category_name=category.name)}}">{{category.name}}</a></li>
+		{% endfor %}
+	</ul>
+	<ul>
+	<!-- TODO: show nicer message if no items -->
+		{% for item in items %}
+			<li><a href="{{url_for('showItem', category_name=category_name, item_name=item.name)}}">{{item.name}}</a></li>
+		{% endfor %}
+	</ul>
+	<a href="{{url_for('showAllCategories')}}">back to main page</a>
+</body>
+</html>

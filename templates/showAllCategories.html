@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Item Catalog</title>
+</head>
+<body>
+<!-- TODO: handle no categories -->
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<ul>
+		{% for category in categories %}
+			<li><a href="{{url_for('showItemsInCategory', category_name=category.name)}}">{{category.name}}</a></li>
+		{% endfor %}
+	</ul>
+	<ul>
+		{% for latestItem in latestItems %}
+			<li><a href="{{url_for('showItem', category_name=latestItem.category_name, item_name=latestItem.name)}}">{{latestItem.name}}</a> ({{latestItem.category.name}})</li>
+		{% endfor %}
+	</ul>
+	<a href="{{url_for('createItem')}}">Add Item</a>
+</body>
+</html>

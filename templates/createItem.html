@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Item Catalog</title>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body onload="$('#categoriesSelect').trigger('change')">
+	<h1>Create Item</h1>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<form action="{{url_for('createItem')}}" method="post">
+		<p>Name:</p>
+		<input type="text" name="name">
+		<p>Description:</p>
+		<input type="text" name="description">
+		<p>Category:</p>
+		<select name="category" id="categoriesSelect">
+			{% for category in categories %}
+			<option value="{{category.name}}">{{category.name}}</option>
+			{% endfor %}
+			<option value="NEW CATEGORY">NEW CATEGORY</option>
+		</select>
+		<input type="text" name="newCategory" id="newCategoryInput">
+		<input type="submit">
+	</form>
+	<a href="{{url_for('showAllCategories')}}">back to main page</a>
+	<script type="text/javascript">
+		$('#categoriesSelect').on('change', function() {
+			console.log(this.value)
+			if (this.value === 'NEW CATEGORY') {
+				$('#newCategoryInput').show()
+			} else {
+				$('#newCategoryInput').hide()
+			}
+		});
+	</script>
+</body>
+</html>
