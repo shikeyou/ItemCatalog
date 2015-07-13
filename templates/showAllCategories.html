@@ -14,6 +14,12 @@
 			</ul>
 		{% endif %}
 	{% endwith %}
+	{% if 'username' not in login_session %}
+		<a href="/login">login</a>
+	{% else %}
+		<p>{{login_session['username']}}</p>
+		<a href="/gdisconnect">logout</a>
+	{% endif %}
 	<ul>
 		{% for category in categories %}
 			<li><a href="{{url_for('showItemsInCategory', category_name=category.name)}}">{{category.name}}</a></li>
@@ -24,6 +30,8 @@
 			<li><a href="{{url_for('showItem', category_name=latestItem.category_name, item_name=latestItem.name)}}">{{latestItem.name}}</a> ({{latestItem.category.name}})</li>
 		{% endfor %}
 	</ul>
-	<a href="{{url_for('createItem')}}">Add Item</a>
+	{% if 'username' in login_session %}
+		<a href="{{url_for('createItem')}}">Add Item</a>
+	{% endif %}
 </body>
 </html>
