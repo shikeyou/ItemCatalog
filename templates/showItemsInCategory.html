@@ -1,27 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Item Catalog</title>
-</head>
-<body>
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for message in messages %}
-				<div class="flash">{{message}}</div>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
-	<ul>
-		{% for category in categories %}
-			<li><a href="{{url_for('showItemsInCategory', category_name=category.name)}}">{{category.name}}</a></li>
-		{% endfor %}
-	</ul>
-	<ul>
-	<!-- TODO: show nicer message if no items -->
-		{% for item in items %}
-			<li><a href="{{url_for('showItem', category_name=category_name, item_name=item.name)}}">{{item.name}}</a></li>
-		{% endfor %}
-	</ul>
-	<a href="{{url_for('showAllCategories')}}">back to main page</a>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Item Catalog{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4 bg-white">
+				<h2>Categories</h2>
+				<ul class="custom-list">
+					{% for category in categories %}
+						<li><a href="{{url_for('showItemsInCategory', category_name=category.name)}}">{{category.name}}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="col-xs-8 bg-white">
+				<h2>Items in {{category_name}}</h2>
+				<ul class="custom-list">
+					{% for item in items %}
+						<li><a href="{{url_for('showItem', category_name=category_name, item_name=item.name)}}">{{item.name}}</a> - {{item.creator_email}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				{% if 'username' in login_session %}
+					<a href="{{url_for('createItem')}}">Add Item</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

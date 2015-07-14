@@ -1,21 +1,19 @@
-<!doctype html>
-<html>
-<head>
-	<title>item catalog</title>
-</head>
-<body>
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			<ul>
-			{% for message in messages %}
-				<li>{{ message }}</li>
-			{% endfor %}
-			</ul>
-		{% endif %}
-	{% endwith %}
-	<p>{{item.description}}</p>
-	<p><a href="{{url_for('deleteItem', category_name=category_name, item_name=item.name)}}">delete</a></p>
-	<p><a href="{{url_for('editItem', category_name=category_name, item_name=item.name)}}">edit</a></p>
-	<a href="{{url_for('showAllCategories')}}">back to main page</a>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Item Catalog{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 bg-white">
+				<h2>{{item.name}}</h2>
+				<p>{{item.description}}</p>
+				<p>created by {{item.creator_email}}</p>
+				{% if item.creator_email == login_session['email'] %}
+				[ <a href="{{url_for('editItem', category_name=category_name, item_name=item.name)}}">edit</a> ]
+				{% endif %}
+				{% if item.creator_email == login_session['email'] %}
+				[ <a href="{{url_for('deleteItem', category_name=category_name, item_name=item.name)}}">delete</a> ]
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

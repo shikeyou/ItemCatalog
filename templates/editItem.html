@@ -1,45 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Item Catalog</title>
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-</head>
-<body onload="$('#categoriesSelect').trigger('change')">
-	<h1>Edit Item</h1>
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			<ul>
-			{% for message in messages %}
-				<li>{{ message }}</li>
-			{% endfor %}
-			</ul>
-		{% endif %}
-	{% endwith %}
-	<form action="{{url_for('editItem', category_name=category_name, item_name=item.name)}}" method="post">
-		<p>Name:</p>
-		<input type="text" name='name' value='{{item.name}}'>
-		<p>Description:</p>
-		<input type="text" name='description' value='{{item.description}}'>
-		<p>Category:</p>
-		<select name="category" id="categoriesSelect">
-			{% for category in categories %}
-				<option value="{{category.name}}" {% if category.name == item.category_name %}selected="selected"{% endif %}>{{category.name}}</option>
-			{% endfor %}
-			<option value="NEW CATEGORY">NEW CATEGORY</option>
-		</select>
-		<input type="text" name="newCategory" id="newCategoryInput">
-		<input type="submit">
-	</form>
-	<a href="{{url_for('showAllCategories')}}">back to main page</a>
-	<script type="text/javascript">
-		$('#categoriesSelect').on('change', function() {
-			console.log(this.value)
-			if (this.value === 'NEW CATEGORY') {
-				$('#newCategoryInput').show()
-			} else {
-				$('#newCategoryInput').hide()
-			}
-		});
-	</script>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Item Catalog - Delete{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 bg-white">
+				<h2>Edit Item</h2>
+				<form action="{{url_for('editItem', category_name=category_name, item_name=item.name)}}" method="post">
+					<p>Name:</p>
+					<input type="text" name='name' value='{{item.name}}'>
+					<p>Description:</p>
+					<input type="text" name='description' value='{{item.description}}'>
+					<p>Category:</p>
+					<select name="category" id="categoriesSelect">
+						{% for category in categories %}
+							<option value="{{category.name}}" {% if category.name == item.category_name %}selected="selected"{% endif %}>{{category.name}}</option>
+						{% endfor %}
+						<option value="NEW CATEGORY">NEW CATEGORY</option>
+					</select>
+					<input type="text" name="newCategory" id="newCategoryInput">
+					<input type="submit">
+				</form>
+				<script type="text/javascript">
+					$('#categoriesSelect').on('change', function() {
+						if (this.value === 'NEW CATEGORY') {
+							$('#newCategoryInput').show()
+						} else {
+							$('#newCategoryInput').hide()
+						}
+					});
+					$(document).ready(function() {
+						$('#categoriesSelect').trigger('change');
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+{% endblock %}

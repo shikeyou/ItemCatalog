@@ -3,15 +3,56 @@
 <head>
 	{% block head %}
 	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}">
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	{% endblock %}
 </head>
 <body>
+
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand title" href="/">Catalog App</a>
+			</div>
+			<div class="nav navbar-nav navbar-right">
+				{% if 'username' not in login_session %}
+					<button type="button" id="login-button" class="btn btn-default navbar-btn btn-danger btn-md">Login</button>
+				{% else %}
+					<div class="pull-left">
+						<p class="navbar-text">{{login_session['username']}}</p>
+						<a href="/gdisconnect">logout</a>
+					</div>
+					<div class="pull-right">
+						<img src="{{login_session['picture']}}" class="profilePicture">
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+
+	<div id="flashMsg">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+				{% for message in messages %}
+					<li>{{ message }}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+	</div>
+
 	<div id="content">
 		{% block content %}{% endblock %}
 	</div>
-    <div id="footer">
-		{% block footer %}{% endblock %}
-    </div>
+
+    <script type="text/javascript">
+    	$('#login-button').on('click', function() {
+    		window.location.href = '/login';
+    	})
+    </script>
+
 </body>
 </html>
