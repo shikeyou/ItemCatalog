@@ -8,7 +8,8 @@ This is Project 3 for Udacity's Full Stack Web Developer Nanodegree.
 
 Main objectives of this project:
 
-* Develop a RESTful application using the Python framework Flask that provides a list of items within a variety of categories
+* Develop a RESTful application using the Python framework Flask that provides a list of items within a variety of categories, including a 
+* Provide a JSON endpoint for users to query all data in the database
 * Provide a user login and authentication system using a third-party OAuth provider (Google+ in this case)
 * Logged-in users have the ability to create, edit and delete their own items
 
@@ -28,9 +29,7 @@ You will need these installed in your computer:
 
 These are the files that come with this project:
 
-* **application.py:** This is the main server-side python Flask file which contains the RESTful API for interacting with a SQLite database using SQLAlchemy.
-
-* **client_secrets.json:** This contains info (e.g. client secrets, client id) of a registered app with Google+
+* **application.py:** This is the main server-side python Flask file which contains the RESTful API for interacting with a SQLite database using SQLAlchemy. It contains all necessary routes to handle different URL requests, as well as a JSON endpoint (`/catalog.json`) which contains all the data in the database in JSON format.
 
 * **templates/\*.html** These are the Jinja2 template files which are used by Flask to serve HTML pages
 
@@ -68,7 +67,29 @@ This respository comes with a default database `db/categoryitems.db` that has so
 
 		> cd ..
 
-Now that the database is in place, we can run the application:
+Next, we will need to register a Google+ app and download the client secrets json file.
+
+* Go to [https://console.developers.google.com](https://console.developers.google.com) and login using your Google account
+
+* Click on the Create Project button. A New Project dialog should appear.
+
+* Give the project a suitable name (e.g. Item Catalog App). Project ID can be left as default. Once you are done, click on the Create button.
+
+*  On the left sidebar, click on APIs & Auth > Credentials.
+
+*  In the main area, click on the Create New Client ID button. A  Create Client ID dialog should appear.
+
+* Select Web Application, then click on the Configure Consent Screen button. The dialog should close.
+
+* In the Consent Screen page, put in at least an email address and a product name. Click on the Save button. The dialog should close.
+
+* In the Create Client ID page, add `http://localhost:5000` to the Authorized JavaScript Origins text box. Then click on the Create Client ID button. You have now successfully create a new project.
+
+* Copy the Client ID. Open up `templates/\login.html` using a text editor and paste the client id into the `data-clientid` field. 
+
+* Click on the Download JSON button to download a .json file which contains client info such as client ID and client secret. Rename this file to `client_secrets.json` and place it in the base folder together with `application.py`.
+
+Now that all the necessary things are in place, we can run the application:
 
 * In a command shell, start the server:
 
